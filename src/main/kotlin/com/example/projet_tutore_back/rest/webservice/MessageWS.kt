@@ -1,5 +1,6 @@
 package com.example.projet_tutore_back.rest.webservice
 
+import com.example.projet_tutore_back.data.dto.MessageSendReqDto
 import com.example.projet_tutore_back.data.entity.Message
 import com.example.projet_tutore_back.data.repository.MessageRepository
 import com.example.projet_tutore_back.data.service.MessageService
@@ -16,8 +17,8 @@ class MessageWS(
     val messageService: MessageService
 ) {
     @PostMapping("/send")
-    fun sendMessage(@RequestBody message: Message) : String {
-        messageService.sendMessage(message)
+    fun sendMessage(@RequestBody messageReq: MessageSendReqDto) : String {
+        messageService.sendMessage(messageReq)
         return ""
     }
 }
