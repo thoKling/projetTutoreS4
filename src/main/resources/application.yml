@@ -1,5 +1,5 @@
 auth0:
-  audience: YOUR_API_IDENTIFIER
+  audience: https://dev-qzfc4ny.eu.auth0.com/api/v2
 spring:
   security:
     oauth2:
