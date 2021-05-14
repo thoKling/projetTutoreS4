@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MessageRepository : CrudRepository<Message, Long> {
     fun save(message: Message) : Message
+    fun findAllBySenderIdAndReceiverIdAndGroupMessage(senderId: String, receiverId: String, groupeMessage: Boolean) : List<Message>
 }
