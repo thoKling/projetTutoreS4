@@ -17,7 +17,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("http://localhost:3000")
         configuration.allowedMethods = listOf("OPTIONS", "POST", "GET")
-        configuration.allowedHeaders = listOf("Origin", "Content-Type", "Authorization")
+        configuration.allowedHeaders = listOf("Origin", "Content-Type", "Authorization", "Access-Control-Allow-Credentials")
+        configuration.allowCredentials = true
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
@@ -27,7 +28,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-            .mvcMatchers("/messfdsage/send").permitAll()
+            .mvcMatchers("/ws/*").permitAll()
+            .mvcMatchers("/message/send").authenticated()
             .and().cors()
             .and().oauth2ResourceServer().jwt()
     }
