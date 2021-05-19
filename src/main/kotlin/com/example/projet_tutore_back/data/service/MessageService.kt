@@ -18,6 +18,7 @@ class MessageService @Autowired constructor (
             // TODO: erreur
             return
         }
+        println(messageReqDto)
         messageRepository.save(
             Message(
                 null,
