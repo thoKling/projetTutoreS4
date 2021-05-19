@@ -29,6 +29,7 @@ class MessageService @Autowired constructor (
             )
         )
         wsCommunicationService.sendToUser(messageReqDto.senderId, "/updateMessages", "test")
+        wsCommunicationService.sendToUser(messageReqDto.receiverId, "/updateMessages", "test")
     }
     fun getMessageWithUser(userId: String): List<Message> {
         // User id that sends the request
