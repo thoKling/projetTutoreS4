@@ -13,7 +13,7 @@ class EventIntercept: ChannelInterceptor {
         val accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor::class.java)
         val command = accessor!!.command
         if(command == StompCommand.CONNECT) {
-          println("salut")
+            println("salut")
         }
         else if(command == StompCommand.DISCONNECT) {
             println("finito")
