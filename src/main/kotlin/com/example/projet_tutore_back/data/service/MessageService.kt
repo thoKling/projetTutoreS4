@@ -3,13 +3,15 @@ package com.example.projet_tutore_back.data.service
 import com.example.projet_tutore_back.data.dto.MessageSendReqDto
 import com.example.projet_tutore_back.data.entity.Message
 import com.example.projet_tutore_back.data.repository.MessageRepository
+import com.example.projet_tutore_back.websocket.service.WSCommunicationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class MessageService @Autowired constructor (
-    val messageRepository: MessageRepository
+    val messageRepository: MessageRepository,
+    val wsCommunicationService: WSCommunicationService
 ) {
     fun sendMessageToUser(messageReqDto: MessageSendReqDto) {
         if(messageReqDto.senderId != SecurityContextHolder.getContext().authentication.name.split('|')[1]) {
@@ -26,6 +28,7 @@ class MessageService @Autowired constructor (
                 null
             )
         )
+        wsCommunicationService.sendToUser(messageReqDto.senderId, "/updateMessages", "test")
     }
     fun getMessageWithUser(userId: String): List<Message> {
         // User id that sends the request

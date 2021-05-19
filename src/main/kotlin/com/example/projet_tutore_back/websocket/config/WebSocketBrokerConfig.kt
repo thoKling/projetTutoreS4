@@ -1,6 +1,9 @@
 package com.example.projet_tutore_back.websocket.config
 
-import com.example.projet_tutore_back.websocket.controller.EventIntercept
+import com.example.projet_tutore_back.websocket.controller.UserController
+import com.example.projet_tutore_back.websocket.interceptor.EventIntercept
+import com.example.projet_tutore_back.websocket.interceptor.UserHandshakeHandler
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.ChannelRegistration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
@@ -11,7 +14,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class WebSocketBrokerConfig : WebSocketMessageBrokerConfigurer {
+class WebSocketBrokerConfig @Autowired constructor(
+    val userController : UserController
+) : WebSocketMessageBrokerConfigurer {
 
     override fun configureMessageBroker(config: MessageBrokerRegistry) {
         config.setApplicationDestinationPrefixes("/app")
@@ -21,11 +26,11 @@ class WebSocketBrokerConfig : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(config: StompEndpointRegistry) {
         config.addEndpoint("/ws")
             .setAllowedOriginPatterns("*")
-            //.setHandshakeHandler(UserHandshakeHandler())
+            .setHandshakeHandler(UserHandshakeHandler())
             .withSockJS()
     }
 
     override fun configureClientInboundChannel(registration: ChannelRegistration) {
-        registration.interceptors(EventIntercept())
+        registration.interceptors(EventIntercept(userController))
     }
 }
