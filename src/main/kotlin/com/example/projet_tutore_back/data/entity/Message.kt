@@ -20,5 +20,5 @@ class Message(
     var message: String,
 
     @CreationTimestamp
-    var datetimeSended: Date?
+    var datetimeSent: Date?
 )
