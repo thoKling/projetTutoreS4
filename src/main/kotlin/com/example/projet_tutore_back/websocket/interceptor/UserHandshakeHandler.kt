@@ -5,6 +5,7 @@ import org.springframework.http.server.ServerHttpRequest
 import org.springframework.web.socket.WebSocketHandler
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler
 import java.security.Principal
+import java.util.*
 
 class UserHandshakeHandler : DefaultHandshakeHandler() {
     override fun determineUser(
@@ -13,6 +14,6 @@ class UserHandshakeHandler : DefaultHandshakeHandler() {
         attributes: MutableMap<String, Any>
     ): Principal {
         // generate user name by UUID
-        return StompPrincipal("6")
+        return StompPrincipal(UUID.randomUUID().toString())
     }
 }

@@ -16,4 +16,8 @@ class WSCommunicationService {
     fun sendToUser(userId: String, topic: String, obj: Any) {
         userController.connectedUsers[userId]?.let { messagingTemplate.convertAndSendToUser("6", topic, obj) }
     }
+
+    fun sendToTopic(topic: String, obj: Any) {
+        messagingTemplate.convertAndSend(topic, obj)
+    }
 }
