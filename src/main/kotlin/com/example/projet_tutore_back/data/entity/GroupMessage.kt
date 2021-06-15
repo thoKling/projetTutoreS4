@@ -5,16 +5,15 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-class Message(
+class GroupMessage(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var msgId: Long?,
+    var grpMsgId: Long?,
 
     var senderId: String,
 
-    var receiverId: String, // User or group Id
-
-    var groupMessage: Boolean,
+    @OneToOne
+    var groupChat: GroupChat, // User or group Id
 
     // Varchar max length = 500
     var message: String,
