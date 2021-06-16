@@ -10,6 +10,9 @@ class GroupChat(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var grpId: Long?,
 
+    @OneToOne
+    var owner: GroupUser,
+
     @ManyToMany
     var users: MutableList<GroupUser>,
 

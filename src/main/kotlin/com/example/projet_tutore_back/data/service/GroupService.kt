@@ -5,6 +5,7 @@ import com.example.projet_tutore_back.data.entity.GroupUser
 import com.example.projet_tutore_back.data.repository.GroupChatRepository
 import com.example.projet_tutore_back.data.repository.GroupUserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
@@ -15,16 +16,27 @@ class GroupService @Autowired constructor(
 ) {
     fun createGroup(users: MutableList<String>) {
         val groupUsers = mutableListOf<GroupUser>()
-        // Add group creator
-        users.add(SecurityContextHolder.getContext().authentication.name.split('|')[1])
         for(user in users) {
             groupUsers.add(this.groupUserRepository.save(GroupUser(user)))
         }
-        this.groupChatRepository.save(GroupChat(null, groupUsers, null))
+        // Add group creator
+        val creatorId = SecurityContextHolder.getContext().authentication.name.split('|')[1]
+        val creator = this.groupUserRepository.save(GroupUser(creatorId))
+        groupUsers.add(creator)
+
+        this.groupChatRepository.save(GroupChat(null, creator, groupUsers, null))
+    }
+
+    fun findOrSaveGroupUser(user: String): GroupUser {
+        return try {
+            this.groupUserRepository.findByUser(user)
+        } catch (e: EmptyResultDataAccessException) {
+            groupUserRepository.save(GroupUser(user))
+        }
     }
 
     fun retrieveGroups(user: String): MutableList<GroupChat> {
-        val groupUser = this.groupUserRepository.findByUser(user)
+        val groupUser: GroupUser = findOrSaveGroupUser(user)
         val groupChats = this.groupChatRepository.findAll()
 
         val res = mutableListOf<GroupChat>()
@@ -37,5 +49,17 @@ class GroupService @Autowired constructor(
     }
     fun getGroup(groupId: Long): GroupChat {
         return groupChatRepository.findById(groupId).get()
+    }
+    fun removeFromGroup(groupId: Long, userId: String) {
+        val group = getGroup(groupId)
+        val user = findOrSaveGroupUser(userId)
+        group.users.remove(user)
+        groupChatRepository.save(group)
+    }
+    fun addToGroup(groupId: Long, userId: String) {
+        val group = getGroup(groupId)
+        val user = findOrSaveGroupUser(userId)
+        group.users.add(user)
+        groupChatRepository.save(group)
     }
 }
