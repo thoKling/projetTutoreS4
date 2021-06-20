@@ -17,9 +17,9 @@ class TicketWS @Autowired constructor(
         ticketService.createTicket(ticketReq)
     }
 
-    @GetMapping("/getTickets")
-    fun getTickets(): List<Ticket> {
-        return ticketService.getTickets()
+    @GetMapping("/getTicketsForUser")
+    fun getTicketsForUser(): List<Ticket> {
+        return ticketService.getTicketsForUser()
     }
 
     @GetMapping("/getTicket/{id}")

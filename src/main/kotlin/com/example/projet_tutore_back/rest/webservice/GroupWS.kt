@@ -12,8 +12,8 @@ class GroupWS @Autowired constructor(
     val groupService: GroupService
 ) {
     @PostMapping("/create")
-    fun create(@RequestBody messageReq: MutableList<String>) {
-        groupService.createGroup(messageReq)
+    fun create(@RequestBody messageReq: MutableList<String>) : GroupChat{
+        return groupService.createGroup(messageReq)
     }
     @GetMapping("/getGroupsWithUser/{userId}")
     fun getGroupsWithUser(@PathVariable userId: String): MutableList<GroupChat> {
