@@ -10,14 +10,20 @@ import org.springframework.messaging.simp.stomp.StompCommand
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor
 import org.springframework.messaging.support.ChannelInterceptor
 import org.springframework.messaging.support.MessageHeaderAccessor
+import org.springframework.stereotype.Component
 
-
+@Component
 class EventIntercept(
-    private val userController: UserController,
+    @Autowired
+    private val userController: UserController
     ) : ChannelInterceptor {
 
-    @Autowired
     private lateinit var wsCommunicationService: WSCommunicationService
+
+    @Autowired
+    fun setWsCom(wsComm: WSCommunicationService) {
+        this.wsCommunicationService = wsComm
+    }
 
     override fun postSend(message: Message<*>, channel: MessageChannel, sent: Boolean) {
         val accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor::class.java)
