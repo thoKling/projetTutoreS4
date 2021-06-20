@@ -1,7 +1,6 @@
 package com.example.projet_tutore_back.data.service
 
 import com.example.projet_tutore_back.data.dto.TicketReqDto
-import com.example.projet_tutore_back.data.entity.Message
 import com.example.projet_tutore_back.data.entity.Ticket
 import com.example.projet_tutore_back.data.repository.TicketRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,7 +25,7 @@ class TicketService @Autowired constructor (
         )
     }
 
-    fun getTickets() : List<Ticket> {
+    fun getTicketsForUser() : List<Ticket> {
         // User id that sends the request
         val senderId = SecurityContextHolder.getContext().authentication.name.split('|')[1]
         return ticketRepository.findAllBySenderId(senderId)

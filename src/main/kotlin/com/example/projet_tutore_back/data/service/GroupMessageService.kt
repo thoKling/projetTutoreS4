@@ -2,7 +2,6 @@ package com.example.projet_tutore_back.data.service
 
 import com.example.projet_tutore_back.data.dto.MessageSendReqDto
 import com.example.projet_tutore_back.data.entity.GroupMessage
-import com.example.projet_tutore_back.data.entity.Message
 import com.example.projet_tutore_back.data.repository.GroupChatRepository
 import com.example.projet_tutore_back.data.repository.GroupMessageRepository
 import com.example.projet_tutore_back.websocket.service.WSCommunicationService

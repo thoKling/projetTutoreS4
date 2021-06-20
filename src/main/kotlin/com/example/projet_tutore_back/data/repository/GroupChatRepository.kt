@@ -8,5 +8,5 @@ import com.example.projet_tutore_back.data.entity.GroupUser
 @Repository
 interface GroupChatRepository: CrudRepository<GroupChat, Long> {
     fun save(group: GroupChat) : GroupChat
-    fun findGroupChatsByUsersIn(users: MutableCollection<MutableList<GroupUser>>)
+    fun findGroupChatsByOwner(owner: GroupUser): List<GroupChat>
 }
