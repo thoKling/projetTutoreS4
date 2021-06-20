@@ -2,13 +2,15 @@ package com.example.projet_tutore_back.websocket.service
 
 import com.example.projet_tutore_back.websocket.controller.UserController
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Lazy
 import org.springframework.messaging.simp.SimpMessageSendingOperations
 import org.springframework.stereotype.Service
 
 @Service
 class WSCommunicationService {
     @Autowired
-    lateinit var messagingTemplate: SimpMessageSendingOperations
+    @Lazy
+    private lateinit var messagingTemplate: SimpMessageSendingOperations
 
     @Autowired
     lateinit var userController: UserController
