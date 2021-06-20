@@ -14,8 +14,10 @@ import org.springframework.messaging.support.MessageHeaderAccessor
 
 class EventIntercept(
     private val userController: UserController,
-    private val wsCommunicationService: WSCommunicationService
     ) : ChannelInterceptor {
+
+    @Autowired
+    private lateinit var wsCommunicationService: WSCommunicationService
 
     override fun postSend(message: Message<*>, channel: MessageChannel, sent: Boolean) {
         val accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor::class.java)
